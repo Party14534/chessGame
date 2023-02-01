@@ -8,12 +8,16 @@ chessPiece::chessPiece(char initType, sf::Vector2i initCoords, bool newHasMoved)
         int coord = initCoords.y*8 + initCoords.x;
 
         //sprite initialization
-        sprite.setFont(font);
-        sprite.setCharacterSize(25);
-        if(isupper(type)) {sprite.setFillColor(sf::Color::White); sprite.setOutlineColor(sf::Color::Black);}
-        else {sprite.setFillColor(sf::Color::Black); sprite.setOutlineColor(sf::Color::White);}
-        sprite.setOutlineThickness(2);
-        sprite.setString(type);
+        
+        if(tolower(type) == 'k') sprite.setTexture(kingTexture);
+        if(tolower(type) == 'q') sprite.setTexture(queenTexture);
+        if(tolower(type) == 'r') sprite.setTexture(rookTexture);
+        if(tolower(type) == 'b') sprite.setTexture(bishopTexture);
+        if(tolower(type) == 'n') sprite.setTexture(knightTexture);
+        if(tolower(type) == 'p') sprite.setTexture(pawnTexture);
+
+        if(isupper(type)) {sprite.setColor(sf::Color::White);}
+        else {sprite.setColor(sf::Color::Black);}
         sprite.setOrigin(sprite.getLocalBounds().width/2, sprite.getLocalBounds().height/2);
         sprite.setPosition(chessBoard[coord].getPosition());
 
@@ -38,4 +42,56 @@ void chessPiece::getValidMoves(std::vector<std::vector<char>> boardState){
     if(type == 'K') whiteKingMove(boardState, id);
     if(type == 'k') blackKingMove(boardState, id);
 
+}
+
+
+void chessPiece::getPawnDanger(std::vector<std::vector<char>> boardState, int id){
+
+    sf::Vector2i coords = chessPieces[id].coords;
+    if(chessPieces[id].type == 'P' && coords.y != 0){
+        if(coords.x != 7){
+
+                std::string stringCoords = "    ";
+                stringCoords[0] = char(coords.x) + '0';
+                stringCoords[1] = char(coords.y) + '0';
+                stringCoords[2] = char(coords.x+1) + '0';
+                stringCoords[3] = char(coords.y-1) + '0';
+                chessPieces[id].validMoves.push_back(stringCoords);
+
+        }
+        if(coords.x != 0){
+
+                std::string stringCoords = "    ";
+                stringCoords[0] = char(coords.x) + '0';
+                stringCoords[1] = char(coords.y) + '0';
+                stringCoords[2] = char(coords.x-1) + '0';
+                stringCoords[3] = char(coords.y-1) + '0';
+                chessPieces[id].validMoves.push_back(stringCoords);
+
+        }
+
+    } else if (chessPieces[id].type == 'p' && coords.y != 7){
+
+        if(coords.x != 7){
+
+                std::string stringCoords = "    ";
+                stringCoords[0] = char(coords.x) + '0';
+                stringCoords[1] = char(coords.y) + '0';
+                stringCoords[2] = char(coords.x+1) + '0';
+                stringCoords[3] = char(coords.y+1) + '0';
+                chessPieces[id].validMoves.push_back(stringCoords);
+
+        }
+        if(coords.x != 0){
+
+                std::string stringCoords = "    ";
+                stringCoords[0] = char(coords.x) + '0';
+                stringCoords[1] = char(coords.y) + '0';
+                stringCoords[2] = char(coords.x-1) + '0';
+                stringCoords[3] = char(coords.y+1) + '0';
+                chessPieces[id].validMoves.push_back(stringCoords);
+
+        }
+
+    }
 }

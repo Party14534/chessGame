@@ -9,6 +9,8 @@ res/mov/queenMovement.cpp \
 res/mov/pawnMovement.cpp \
 res/mov/knightMovement.cpp \
 res/checkIfMate.cpp \
+res/Collision.cpp \
+res/loadTextures.cpp \
 res/generateDangerMaps.cpp \
 res/getIdatCoord.cpp \
 res/checkNotCheck.cpp \

@@ -11,6 +11,7 @@ void redrawBoard(std::vector<std::vector<char>> &board){
             }
         }
     }
+    chessPieces = {};
     chessPieces.clear();
     std::cout << "\n";
     for(int i = 0; i < 8; i++){
@@ -23,5 +24,5 @@ void redrawBoard(std::vector<std::vector<char>> &board){
         }
         std::cout << "\n";
     }
-
+    movedVec.clear();
 }

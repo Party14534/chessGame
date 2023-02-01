@@ -9,6 +9,7 @@ bool checkMate(std::vector<std::vector<char>> board, int color){
                     chessPiece newPiece(board[i][j], {j,i}, false);
             }
         }
+        //std::cout << "got here\n";
 
 
         std::vector<std::string> validMoves;
@@ -43,17 +44,26 @@ bool checkMate(std::vector<std::vector<char>> board, int color){
             }
 
         }
-
+        //std::cout << "got here baby\n";
         for(int i = 0; i < validMoves.size(); i++){
+            //std::cout << "before coords\n";
             sf::Vector2i prevCoords = {int(validMoves[i][0]) - 48, int(validMoves[i][1]) - 48};
+            //std::cout << "after coords1\n";
             sf::Vector2i newCoords = {int(validMoves[i][2]) - 48, int(validMoves[i][3]) - 48};
+            //std::cout << "after coords2\n";
             if(checkNotCheck(board, getIdatCoord(prevCoords), prevCoords, newCoords)){
+                //std::cout << "before erase " << "\n";
                 validMoves.erase(validMoves.begin()+i);
                 i--;
+                if(i < 0) i = 0;
+                //std::cout << validMoves.size() << ", " << i << "\n";
             }
         }
+        //std::cout << "poopies\n";
         chessPieces = tempChessPieces;
-        if(validMoves.size() == 0) return true;
+        tempChessPieces.clear();
+        if(validMoves.size() == 0) {validMoves.clear();return true;}
+        validMoves.clear();
         return false;
 
 }

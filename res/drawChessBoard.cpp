@@ -22,7 +22,8 @@ void drawChessBoard(float width, float height){
             newBlock.setOutlineColor(sf::Color::Transparent);
             newBlock.setOutlineThickness(2);
 
-            if(colorSwitch) newBlock.setFillColor(sf::Color(250, 240, 220));
+            //if(colorSwitch) newBlock.setFillColor(sf::Color(250, 240, 220));
+            if(colorSwitch) newBlock.setFillColor(sf::Color(210, 200, 180));
             else newBlock.setFillColor(sf::Color(118, 74, 52));
 
             colorSwitch = !colorSwitch;

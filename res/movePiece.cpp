@@ -48,11 +48,15 @@ void movePiece(std::vector<std::vector<char>> &board, std::vector<std::string>& 
                         chessPieces[getIdatCoord({0,0})].hasMoved = true;
                         board[0][3] = 'r';
                     } else if(chessPieces[clickedId].type == 'P' && (newCoords.x - chessPieces[clickedId].coords.x != 0)
-                    && (newCoords.y - chessPieces[clickedId].coords.y != 0) && (justPassant.x != -1)){
+                    && (newCoords.y - chessPieces[clickedId].coords.y != 0) &&
+                    (newCoords.x == justPassant.x) && (newCoords.y == justPassant.y-1)){
                         board[newCoords.y + 1][newCoords.x] = '\0';
+                        std::cout << "passant\n";
                     } else if(chessPieces[clickedId].type == 'p' && (newCoords.x - chessPieces[clickedId].coords.x != 0)
-                    && (newCoords.y - chessPieces[clickedId].coords.y != 0) && (justPassant.x != -1)){
+                    && (newCoords.y - chessPieces[clickedId].coords.y != 0) &&
+                    (newCoords.x == justPassant.x) && (newCoords.y == justPassant.y+1)){
                         board[newCoords.y - 1][newCoords.x] = '\0';
+                        std::cout << "passant\n";
                     }
                     int prevCoordY = chessPieces[clickedId].coords.y;
                     chessPieces[clickedId].coords = newCoords;

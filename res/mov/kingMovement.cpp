@@ -94,7 +94,7 @@ void whiteKingMove(std::vector<std::vector<char>> boardState, int id){
     }
     //Castling
     int rookId = getIdatCoord({7,7});
-    if(rookId != -1){
+    if(rookId != -1 && (chessPieces[rookId].type == 'R')){
         if(!(chessPieces[id].hasMoved) && !(chessPieces[rookId].hasMoved)){
             int64_t bit1 = 1;
             bit1 = bit1 << 60;
@@ -115,7 +115,7 @@ void whiteKingMove(std::vector<std::vector<char>> boardState, int id){
         }
     }
     rookId = getIdatCoord({0,7});
-    if(rookId != -1){
+    if(rookId != -1 && (chessPieces[rookId].type == 'R')){
         if(!(chessPieces[id].hasMoved) && !(chessPieces[rookId].hasMoved)){
             int64_t bit1 = 1;
             bit1 = bit1 << 60;
@@ -234,7 +234,7 @@ void blackKingMove(std::vector<std::vector<char>> boardState, int id){
     }
     //Castling
     int rookId = getIdatCoord({7,0});
-    if(rookId != -1){
+    if(rookId != -1 && (chessPieces[rookId].type == 'r')){
         if(!(chessPieces[id].hasMoved) && !(chessPieces[rookId].hasMoved)){
             int64_t bit1 = 1;
             bit1 = bit1 << 4;
@@ -255,7 +255,7 @@ void blackKingMove(std::vector<std::vector<char>> boardState, int id){
         }
     }
     rookId = getIdatCoord({0,0});
-    if(rookId != -1){
+    if(rookId != -1 && (chessPieces[rookId].type == 'r')){
         if(!(chessPieces[id].hasMoved) && !(chessPieces[rookId].hasMoved)){
             int64_t bit1 = 1;
             bit1 = bit1 << 4;

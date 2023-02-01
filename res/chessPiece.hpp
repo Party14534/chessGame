@@ -12,6 +12,8 @@
 #include "mov/bishopMovement.hpp"
 #include "mov/rookMovement.hpp"
 #include "mov/kingMovement.hpp"
+#include "loadTextures.hpp"
+#include "Collision.hpp"
 
 class chessPiece;
 inline sf::Vector2i justPassant;
@@ -22,7 +24,7 @@ class chessPiece{
 
     public: 
         sf::Vector2i coords;
-        sf::Text sprite;
+        sf::Sprite sprite;
         std::vector<std::string> validMoves;
         char type;
         bool hovered = false;
@@ -32,6 +34,7 @@ class chessPiece{
 
         chessPiece(char initType, sf::Vector2i initCoords, bool newHasMoved);
         void getValidMoves(std::vector<std::vector<char>> boardState);
+        void getPawnDanger(std::vector<std::vector<char>> boardState, int id);
 
 };
 

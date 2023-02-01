@@ -16,6 +16,7 @@
 #include "res/getIdatCoord.hpp"
 #include "res/checkIfMate.hpp"
 #include "res/bots/botMovement.hpp"
+#include "res/loadTextures.hpp"
 
 // en passant bug
 
@@ -28,11 +29,13 @@ int main(int argc, char ** argv){
     int roundCheck = 0;
     int botColor = 1;
     int botType = 0;
+    int botType2 = 0;
 
     if(argc > 1 && isdigit(*argv[1])) botType = int(*argv[1]) - 48;
-    std::cout << botType << "\n";
+    if(argc > 2 && isdigit(*argv[1])) botType2 = int(*argv[2]) - 48;
 
     srand((unsigned) time(NULL));
+    loadTextures();
 
     sf::RenderWindow window(sf::VideoMode(width, height, 32), "Chess Game", sf::Style::Default);
     window.setFramerateLimit(60);
@@ -55,8 +58,12 @@ int main(int argc, char ** argv){
 
     std::vector<std::vector<char>> board(8, std::vector<char> (8));
     std::string boardString = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR/8";
-    //boardString = "rnb1kbnr/pp1ppppp/2p5/3P4/2P1P3/8/PP2KPPP/RNBQqBNR";
+    //boardString = "8/5p2/4p3/4P3/8/8/7k/K7";
+    //boardString = "r1b1kb1r/p2qppp1/2np1n2/1ppP3p/Q1P2B1P/5N2/PP1NPPP1/R3KB1R";
     initializeBoard(board, boardString);
+    for(int i = 0; i < chessPieces.size(); i++){
+        std::cout << chessPieces[i].type << ": " << chessPieces[i].coords.x << ", " << chessPieces[i].coords.y << "\n";
+    }
 
     sf::Font font;
     font.loadFromFile("fonts/scoreFont.ttf");
@@ -84,14 +91,20 @@ int main(int argc, char ** argv){
             }
         }
     }
+
     for(int i = 0; i < allValidMoves.size(); i++){
-                        sf::Vector2i prevCoords = {int(allValidMoves[i][0]) - 48, int(allValidMoves[i][1]) - 48};
-                        sf::Vector2i newCoords = {int(allValidMoves[i][2]) - 48, int(allValidMoves[i][3]) - 48};
-                        if(checkNotCheck(board, getIdatCoord(prevCoords), prevCoords, newCoords)){
-                            allValidMoves.erase(allValidMoves.begin()+i);
-                            i--;
-                        }
-                    }
+        
+        sf::Vector2i prevCoords = {int(allValidMoves[i][0]) - 48, int(allValidMoves[i][1]) - 48};
+        sf::Vector2i newCoords = {int(allValidMoves[i][2]) - 48, int(allValidMoves[i][3]) - 48};
+        int id = getIdatCoord(prevCoords);
+        if(id > 0){
+            if(checkNotCheck(board, getIdatCoord(prevCoords), prevCoords, newCoords)){
+                if(i < 0) i = 0;
+                allValidMoves.erase(allValidMoves.begin()+i);
+                i--;
+            }
+        }
+    }
 
     checkInCheck(board, 2);
 
@@ -107,7 +120,7 @@ int main(int argc, char ** argv){
         }
 
 
-        //random bot movement
+        //random bot 1 movement
         if(roundCheck == botColor && botType != 0){
 
             std::string move = moveBot(board, allValidMoves, botColor, botType);
@@ -119,6 +132,7 @@ int main(int argc, char ** argv){
 
                     if(roundCheck == 2) roundCheck = 0;
                     checkInCheck(board,0);
+                    allValidMoves = {};
                     allValidMoves.clear();
                     for(int i = 0; i < chessPieces.size(); i++){
                         if(abs(roundCheck - !!isupper(chessPieces[i].type))){
@@ -132,6 +146,42 @@ int main(int argc, char ** argv){
                         sf::Vector2i prevCoords = {int(allValidMoves[i][0]) - 48, int(allValidMoves[i][1]) - 48};
                         sf::Vector2i newCoords = {int(allValidMoves[i][2]) - 48, int(allValidMoves[i][3]) - 48};
                         if(checkNotCheck(board, getIdatCoord(prevCoords), prevCoords, newCoords)){
+                            if(i < 0) i = 0;
+                            allValidMoves.erase(allValidMoves.begin()+i);
+                            i--;
+                        }
+                    }
+                    checkInCheck(board, 2);
+                    if(allValidMoves.size() == 0){std::cout << "player " << !roundCheck + 1 << "!wins "; window.close();}
+
+        }
+
+        if(roundCheck == !botColor && botType != 0 && argc > 2){
+
+            std::string move = moveBot(board, allValidMoves, !botColor, botType2);
+            sf::Vector2i newCoords = {int(move[2]) - 48, int(move[3]) - 48};
+            int oldId = getIdatCoord({int(move[0]) - 48, int(move[1]) - 48});
+            int boardId = newCoords.y*8 + newCoords.x;
+
+            movePiece(board, allValidMoves, oldId, boardId, oldId, roundCheck);
+
+                    if(roundCheck == 2) roundCheck = 0;
+                    checkInCheck(board,0);
+                    allValidMoves = {};
+                    allValidMoves.clear();
+                    for(int i = 0; i < chessPieces.size(); i++){
+                        if(abs(roundCheck - !!isupper(chessPieces[i].type))){
+                            chessPieces[i].getValidMoves(board);
+                            for(int j = 0; j < chessPieces[i].validMoves.size(); j++){
+                                allValidMoves.push_back(chessPieces[i].validMoves[j]);
+                            }
+                        }
+                    }
+                    for(int i = 0; i < allValidMoves.size(); i++){
+                        sf::Vector2i prevCoords = {int(allValidMoves[i][0]) - 48, int(allValidMoves[i][1]) - 48};
+                        sf::Vector2i newCoords = {int(allValidMoves[i][2]) - 48, int(allValidMoves[i][3]) - 48};
+                        if(checkNotCheck(board, getIdatCoord(prevCoords), prevCoords, newCoords)){
+                            if(i < 0) i = 0;
                             allValidMoves.erase(allValidMoves.begin()+i);
                             i--;
                         }
@@ -182,6 +232,7 @@ int main(int argc, char ** argv){
                     if(roundCheck == 2) roundCheck = 0;
                     if(prevRoundCheck == 0) checkInCheck(board,1);
                     else checkInCheck(board,0);
+                    allValidMoves = {};
                     allValidMoves.clear();
                     for(int i = 0; i < chessPieces.size(); i++){
                         if(abs(roundCheck - !!isupper(chessPieces[i].type))){
@@ -228,12 +279,12 @@ int main(int argc, char ** argv){
             //Setting chess piece outline
             
             if(chessPieces[i].hovered &&
-            abs(roundCheck - !!isupper(chessPieces[i].type))) chessPieces[i].sprite.setOutlineColor(sf::Color::Cyan);
-            else if(chessPieces[i].type == 'K' && whiteInCheck) chessPieces[i].sprite.setOutlineColor(sf::Color::Red);
-            else if(chessPieces[i].type == 'k' && blackInCheck) chessPieces[i].sprite.setOutlineColor(sf::Color::Red);
+            abs(roundCheck - !!isupper(chessPieces[i].type))) chessPieces[i].sprite.setColor(sf::Color::Cyan);
+            else if(chessPieces[i].type == 'K' && whiteInCheck) chessPieces[i].sprite.setColor(sf::Color::Red);
+            else if(chessPieces[i].type == 'k' && blackInCheck) chessPieces[i].sprite.setColor(sf::Color::Red);
             else {
-                if(chessPieces[i].sprite.getFillColor() == sf::Color::White) chessPieces[i].sprite.setOutlineColor(sf::Color::Black);
-                else chessPieces[i].sprite.setOutlineColor(sf::Color::White);
+                if(isupper(chessPieces[i].type)) chessPieces[i].sprite.setColor(sf::Color::White);
+                else chessPieces[i].sprite.setColor(sf::Color::Black);
             }
 
         }
@@ -281,6 +332,16 @@ int main(int argc, char ** argv){
         for(int i = 0; i < moveBoard.size(); i++) window.draw(moveBoard[i]);
         for(int i = 0; i < chessPieces.size(); i++) window.draw(chessPieces[i].sprite);
         window.display();
+        if(chessPieces.size() == 2){std::cout << "Draw\n"; window.close();}
     }
+
+    whiteInCheck = NULL;
+    blackInCheck = NULL;
+    chessPieces.clear();
+    moveBoard.clear();
+    chessBoard.clear();
+    board.clear();
+    allValidMoves.clear();
+    return 0;
 
 }
