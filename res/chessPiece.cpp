@@ -3,21 +3,26 @@
 chessPiece::chessPiece(char initType, sf::Vector2i initCoords, bool newHasMoved){
     if(initType != '\0'){
         hasMoved = newHasMoved;
+        std::cout << initType << ": " << hasMoved << "\n";
         type = initType;
         coords = initCoords;
         int coord = initCoords.y*8 + initCoords.x;
 
         //sprite initialization
         
-        if(tolower(type) == 'k') sprite.setTexture(kingTexture);
-        if(tolower(type) == 'q') sprite.setTexture(queenTexture);
-        if(tolower(type) == 'r') sprite.setTexture(rookTexture);
-        if(tolower(type) == 'b') sprite.setTexture(bishopTexture);
-        if(tolower(type) == 'n') sprite.setTexture(knightTexture);
-        if(tolower(type) == 'p') sprite.setTexture(pawnTexture);
+        if(type == 'K') sprite.setTexture(whiteKingTexture);
+        if(type == 'Q') sprite.setTexture(whiteQueenTexture);
+        if(type == 'R') sprite.setTexture(whiteRookTexture);
+        if(type == 'B') sprite.setTexture(whiteBishopTexture);
+        if(type == 'N') sprite.setTexture(whiteKnightTexture);
+        if(type == 'P') sprite.setTexture(whitePawnTexture);
+        if(type == 'k') sprite.setTexture(blackKingTexture);
+        if(type == 'q') sprite.setTexture(blackQueenTexture);
+        if(type == 'r') sprite.setTexture(blackRookTexture);
+        if(type == 'b') sprite.setTexture(blackBishopTexture);
+        if(type == 'n') sprite.setTexture(blackKnightTexture);
+        if(type == 'p') sprite.setTexture(blackPawnTexture);
 
-        if(isupper(type)) {sprite.setColor(sf::Color::White);}
-        else {sprite.setColor(sf::Color::Black);}
         sprite.setOrigin(sprite.getLocalBounds().width/2, sprite.getLocalBounds().height/2);
         sprite.setPosition(chessBoard[coord].getPosition());
 

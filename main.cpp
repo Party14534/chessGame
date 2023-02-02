@@ -58,7 +58,7 @@ int main(int argc, char ** argv){
 
     std::vector<std::vector<char>> board(8, std::vector<char> (8));
     std::string boardString = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR/8";
-    //boardString = "8/5p2/4p3/4P3/8/8/7k/K7";
+    boardString = "2b4r/1ppp1ppk/7p/7P/1p6/8/6P1/2KN4";
     //boardString = "r1b1kb1r/p2qppp1/2np1n2/1ppP3p/Q1P2B1P/5N2/PP1NPPP1/R3KB1R";
     initializeBoard(board, boardString);
     for(int i = 0; i < chessPieces.size(); i++){
@@ -283,8 +283,7 @@ int main(int argc, char ** argv){
             else if(chessPieces[i].type == 'K' && whiteInCheck) chessPieces[i].sprite.setColor(sf::Color::Red);
             else if(chessPieces[i].type == 'k' && blackInCheck) chessPieces[i].sprite.setColor(sf::Color::Red);
             else {
-                if(isupper(chessPieces[i].type)) chessPieces[i].sprite.setColor(sf::Color::White);
-                else chessPieces[i].sprite.setColor(sf::Color::Black);
+                chessPieces[i].sprite.setColor(sf::Color::White);
             }
 
         }
@@ -326,6 +325,7 @@ int main(int argc, char ** argv){
 
 
         //Drawing to screen
+        
         window.clear(sf::Color::Black);
         window.draw(roundDisplay);
         for(int i = 0; i < chessBoard.size(); i++) window.draw(chessBoard[i]);
