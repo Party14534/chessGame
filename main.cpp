@@ -33,6 +33,7 @@ int main(int argc, char ** argv){
 
     if(argc > 1 && isdigit(*argv[1])) botType = int(*argv[1]) - 48;
     if(argc > 2 && isdigit(*argv[1])) botType2 = int(*argv[2]) - 48;
+    std::cout << botType << botType2 << "\n";
 
     srand((unsigned) time(NULL));
     loadTextures();
@@ -58,12 +59,9 @@ int main(int argc, char ** argv){
 
     std::vector<std::vector<char>> board(8, std::vector<char> (8));
     std::string boardString = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR/8";
-    //boardString = "2b4r/1ppp1ppk/7p/7P/1p6/8/6P1/2KN4";
+    boardString = "r3kbnr/p4ppp/b1p1p3/8/5P2/P7/1P1Pq1PP/RNB1K2R";
     //boardString = "r1b1kb1r/p2qppp1/2np1n2/1ppP3p/Q1P2B1P/5N2/PP1NPPP1/R3KB1R";
     initializeBoard(board, boardString);
-    for(int i = 0; i < chessPieces.size(); i++){
-        std::cout << chessPieces[i].type << ": " << chessPieces[i].coords.x << ", " << chessPieces[i].coords.y << "\n";
-    }
 
     sf::Font font;
     font.loadFromFile("fonts/scoreFont.ttf");
@@ -81,6 +79,8 @@ int main(int argc, char ** argv){
     sf::CircleShape mouseCircle;
     mouseCircle.setFillColor(sf::Color::Cyan);
     mouseCircle.setRadius(0.1f);
+
+    checkInCheck(board, 2);
 
     std::vector<std::string> allValidMoves;
     for(int i = 0; i < chessPieces.size(); i++){
@@ -106,7 +106,9 @@ int main(int argc, char ** argv){
         }
     }
 
-    checkInCheck(board, 2);
+    if(allValidMoves.size() == 0){std::cout << "player " << !roundCheck + 1 << "wins!\n"; window.close();}
+
+
 
     while(window.isOpen()){
 
@@ -121,7 +123,7 @@ int main(int argc, char ** argv){
 
 
         //random bot 1 movement
-        if(roundCheck == botColor && botType != 0){
+        if(roundCheck == botColor && botType != 0 && allValidMoves.size() != 0){
 
             std::string move = moveBot(board, allValidMoves, botColor, botType);
             sf::Vector2i newCoords = {int(move[2]) - 48, int(move[3]) - 48};
@@ -152,13 +154,15 @@ int main(int argc, char ** argv){
                         }
                     }
                     checkInCheck(board, 2);
-                    if(allValidMoves.size() == 0){std::cout << "player " << !roundCheck + 1 << "!wins "; window.close();}
+                    if(allValidMoves.size() == 0){std::cout << "player " << !roundCheck + 1 << "wins!\n"; window.close();}
 
         }
 
-        if(roundCheck == !botColor && botType != 0 && argc > 2){
+        if(roundCheck == !botColor && botType2 != 0 && argc > 2 && allValidMoves.size() != 0){
 
+            std::cout << "here\n";
             std::string move = moveBot(board, allValidMoves, !botColor, botType2);
+            std::cout << "aftermove\n";
             sf::Vector2i newCoords = {int(move[2]) - 48, int(move[3]) - 48};
             int oldId = getIdatCoord({int(move[0]) - 48, int(move[1]) - 48});
             int boardId = newCoords.y*8 + newCoords.x;
@@ -187,7 +191,7 @@ int main(int argc, char ** argv){
                         }
                     }
                     checkInCheck(board, 2);
-                    if(allValidMoves.size() == 0){std::cout << "player " << !roundCheck + 1 << "!wins "; window.close();}
+                    if(allValidMoves.size() == 0){std::cout << "player " << !roundCheck + 1 << "wins!\n"; window.close();}
 
         }
 
@@ -251,7 +255,7 @@ int main(int argc, char ** argv){
                         }
                     }
                     checkInCheck(board, 2);
-                    if(allValidMoves.size() == 0){std::cout << "player " << !roundCheck + 1 << "!wins "; window.close();}
+                    if(allValidMoves.size() == 0){std::cout << "player " << !roundCheck + 1 << "wins!\n"; window.close();}
 
                 }
                 

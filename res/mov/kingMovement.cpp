@@ -94,8 +94,8 @@ void whiteKingMove(std::vector<std::vector<char>> boardState, int id){
     }
     //Castling
     int rookId = getIdatCoord({7,7});
-    if(rookId != -1 && (chessPieces[rookId].type == 'R') && coords.x == 3 && coords.y == 7){
-        if(!(chessPieces[id].hasMoved) && !(chessPieces[rookId].hasMoved)){
+    if(rookId != -1 && (chessPieces[rookId].type == 'R') && coords.x == 4 && coords.y == 7){
+        if(!(chessPieces[id].hasMoved) && !(chessPieces[rookId].hasMoved) && !whiteInCheck){
             int64_t bit1 = 1;
             bit1 = bit1 << 60;
             int64_t bit2 = 1;
@@ -115,8 +115,8 @@ void whiteKingMove(std::vector<std::vector<char>> boardState, int id){
         }
     }
     rookId = getIdatCoord({0,7});
-    if(rookId != -1 && (chessPieces[rookId].type == 'R') && coords.x == 3 && coords.y == 7){
-        if(!(chessPieces[id].hasMoved) && !(chessPieces[rookId].hasMoved)){
+    if(rookId != -1 && (chessPieces[rookId].type == 'R') && coords.x == 4 && coords.y == 7){
+        if(!(chessPieces[id].hasMoved) && !(chessPieces[rookId].hasMoved) && !whiteInCheck){
             int64_t bit1 = 1;
             bit1 = bit1 << 60;
             int64_t bit2 = 1;
@@ -234,8 +234,8 @@ void blackKingMove(std::vector<std::vector<char>> boardState, int id){
     }
     //Castling
     int rookId = getIdatCoord({7,0});
-    if(rookId != -1 && (chessPieces[rookId].type == 'r') && coords.x == 3 && coords.y == 0){
-        if(!(chessPieces[id].hasMoved) && !(chessPieces[rookId].hasMoved)){
+    if(rookId != -1 && (chessPieces[rookId].type == 'r') && coords.x == 4 && coords.y == 0){
+        if(!(chessPieces[id].hasMoved) && !(chessPieces[rookId].hasMoved) && !blackInCheck){
             int64_t bit1 = 1;
             bit1 = bit1 << 4;
             int64_t bit2 = 1;
@@ -255,8 +255,8 @@ void blackKingMove(std::vector<std::vector<char>> boardState, int id){
         }
     }
     rookId = getIdatCoord({0,0});
-    if(rookId != -1 && (chessPieces[rookId].type == 'r') && coords.x == 3 && coords.y == 0){
-        if(!(chessPieces[id].hasMoved) && !(chessPieces[rookId].hasMoved)){
+    if(rookId != -1 && (chessPieces[rookId].type == 'r') && coords.x == 4 && coords.y == 0){
+        if(!(chessPieces[id].hasMoved) && !(chessPieces[rookId].hasMoved) && !blackInCheck){
             int64_t bit1 = 1;
             bit1 = bit1 << 4;
             int64_t bit2 = 1;

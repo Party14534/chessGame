@@ -2,20 +2,25 @@
 
 std::string cccpBotMove(std::vector<std::vector<char>> board, std::vector<std::string> validMoves, int color){
 
-    std::vector<std::string> checkmateMoves(50, "    ");
+    int num = 50;
+    std::vector<std::string> checkmateMoves(num, "    ");
     int mateNum = 0;
-    std::vector<std::string> checkMoves(50, "    ");
+    std::vector<std::string> checkMoves(num, "    ");
     int checkNum = 0;
-    std::vector<std::string> captureMoves(50, "    ");
+    std::vector<std::string> captureMoves(num, "    ");
     int capNum = 0;
 
     
     for(int i = 0; i < validMoves.size(); i++){
+    //std::cout << "loop\n";
         
         std::vector<chessPiece> tempChessPieces = chessPieces;
         std::vector<std::vector<char>> tempBoard = board;
+
+        //std::cout << "valid movess\n";
         sf::Vector2i prevCoords = {int(validMoves[i][0]) - 48, int(validMoves[i][1]) - 48};
         sf::Vector2i newCoords = {int(validMoves[i][2]) - 48, int(validMoves[i][3]) - 48};
+        //std::cout << "board\n";
         char type = tempBoard[prevCoords.y][prevCoords.x];
         //std::cout << "hereee0\n";
 

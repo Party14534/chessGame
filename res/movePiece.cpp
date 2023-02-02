@@ -32,12 +32,12 @@ void movePiece(std::vector<std::vector<char>> &board, std::vector<std::string>& 
                         board[7][5] = 'R';
                     } else if(chessPieces[clickedId].type == 'K' && (newCoords.x - chessPieces[clickedId].coords.x == -2)){
                         board[7][0] = '\0';
-                        chessPieces[getIdatCoord({7,0})].hasMoved = true;
+                        chessPieces[getIdatCoord({0,7})].hasMoved = true;
                         board[7][3] = 'R';
                     }
                     else if(chessPieces[clickedId].type == 'k' && (newCoords.x - chessPieces[clickedId].coords.x == 2)){
                         board[0][7] = '\0';
-                        chessPieces[getIdatCoord({0,7})].hasMoved = true;
+                        chessPieces[getIdatCoord({7,0})].hasMoved = true;
                         board[0][5] = 'r';
                     } else if(chessPieces[clickedId].type == 'k' && (newCoords.x - chessPieces[clickedId].coords.x == -2)){
                         board[0][0] = '\0';
