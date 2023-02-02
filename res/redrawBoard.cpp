@@ -20,8 +20,7 @@ void redrawBoard(std::vector<std::vector<char>> &board){
         for(int j = 0; j < 8; j++){
             if(board[i][j] == '\0') std::cout << "  ";
             else{
-                if(movedVec[i][j]) std::cout << movedVec[i][j] << " ";
-                else std::cout << board[i][j] << " ";
+                std::cout << board[i][j] << " ";
                 chessPiece newPiece(board[i][j], {j,i}, movedVec[i][j]);
             }
         }
