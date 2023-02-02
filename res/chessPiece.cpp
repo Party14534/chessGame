@@ -3,7 +3,7 @@
 chessPiece::chessPiece(char initType, sf::Vector2i initCoords, bool newHasMoved){
     if(initType != '\0'){
         hasMoved = newHasMoved;
-        std::cout << initType << ": " << hasMoved << "\n";
+        //std::cout << initType << ": " << hasMoved << "\n";
         type = initType;
         coords = initCoords;
         int coord = initCoords.y*8 + initCoords.x;

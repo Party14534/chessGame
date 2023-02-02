@@ -43,10 +43,6 @@ void movePiece(std::vector<std::vector<char>> &board, std::vector<std::string>& 
                         board[0][0] = '\0';
                         chessPieces[getIdatCoord({0,0})].hasMoved = true;
                         board[0][3] = 'r';
-                    } else if(chessPieces[clickedId].type == 'p' && (newCoords.x - chessPieces[clickedId].coords.x == -2)){
-                        board[0][0] = '\0';
-                        chessPieces[getIdatCoord({0,0})].hasMoved = true;
-                        board[0][3] = 'r';
                     } else if(chessPieces[clickedId].type == 'P' && (newCoords.x - chessPieces[clickedId].coords.x != 0)
                     && (newCoords.y - chessPieces[clickedId].coords.y != 0) &&
                     (newCoords.x == justPassant.x) && (newCoords.y == justPassant.y-1)){
