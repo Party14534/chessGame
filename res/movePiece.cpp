@@ -1,6 +1,6 @@
 #include "movePiece.hpp"
 
-void movePiece(std::vector<std::vector<char>> &board, std::vector<std::string>& allValidMoves, int clickedId, int boardId, int prevId, int &roundCheck){
+void movePiece(std::vector<std::vector<char>> &board, std::vector<std::string>& allValidMoves, int clickedId, int boardId, int &roundCheck, int &halfMove, int &roundCount){
 
                 bool valid = false;
 
@@ -20,6 +20,11 @@ void movePiece(std::vector<std::vector<char>> &board, std::vector<std::string>& 
                 }
 
                 if(valid){
+
+                    //half move clock updating
+                    if(board[newCoords.y][newCoords.x] != '\0' || chessPieces[clickedId].type == 'P' || chessPieces[clickedId].type == 'p'){
+                        halfMove = 0;
+                    } else halfMove++;
 
                     board[chessPieces[clickedId].coords.y][chessPieces[clickedId].coords.x] = '\0';
                     if(newCoords.y == 0 && chessPieces[clickedId].type == 'P') board[newCoords.y][newCoords.x] = 'Q';
@@ -63,10 +68,15 @@ void movePiece(std::vector<std::vector<char>> &board, std::vector<std::string>& 
                         justPassant = newCoords;
                     } else { justPassant = {-1,-1};}
 
-                    roundCheck++;
+                    roundCheck = !roundCheck;
+                    if(roundCheck == 0){
+                        roundCount++;
+                    }
                     
+                    generateFen(board, roundCheck, halfMove, roundCount);
+                    std::cout << boardFen << "\n";
 
-                } else chessPieces[clickedId].sprite.setPosition(chessBoard[prevId].getPosition());
+                } else chessPieces[clickedId].sprite.setPosition(chessBoard[clickedId].getPosition());
 
                 chessPieces[clickedId].clicked = false;
                 clickedId = -1;

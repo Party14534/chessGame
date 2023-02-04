@@ -8,8 +8,9 @@
 #include "checkInCheck.hpp"
 #include "getIdatCoord.hpp"
 #include "checkNotCheck.hpp"
+#include "generateFen.hpp"
 
-void movePiece(std::vector<std::vector<char>> &board, std::vector<std::string>& allValidMoves, int clickedId, int boardId, int prevId, int &roundCheck);
+void movePiece(std::vector<std::vector<char>> &board, std::vector<std::string>& allValidMoves, int clickedId, int boardId, int &roundCheck, int &halfMove, int &roundCount);
 
 
 #endif

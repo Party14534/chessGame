@@ -17,6 +17,8 @@
 #include "res/checkIfMate.hpp"
 #include "res/bots/botMovement.hpp"
 #include "res/loadTextures.hpp"
+#include "res/generateFen.hpp"
+#include "res/getEval.hpp"
 
 // en passant bug
 
@@ -27,6 +29,7 @@ int main(int argc, char ** argv){
     bool holding = false;
     int roundCount = 1;
     int roundCheck = 0;
+    int halfmoveClock = 0;
     int botColor = 1;
     int botType = 0;
     int botType2 = 0;
@@ -59,7 +62,7 @@ int main(int argc, char ** argv){
 
     std::vector<std::vector<char>> board(8, std::vector<char> (8));
     std::string boardString = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR/8";
-    boardString = "r3kbnr/p4ppp/b1p1p3/8/5P2/P7/1P1Pq1PP/RNB1K2R";
+    //boardString = "r3kbnr/p4ppp/b1p1p3/8/5P2/P7/1P1Pq1PP/RNB1K2R";
     //boardString = "r1b1kb1r/p2qppp1/2np1n2/1ppP3p/Q1P2B1P/5N2/PP1NPPP1/R3KB1R";
     initializeBoard(board, boardString);
 
@@ -108,18 +111,15 @@ int main(int argc, char ** argv){
 
     if(allValidMoves.size() == 0){std::cout << "player " << !roundCheck + 1 << "wins!\n"; window.close();}
 
-
+    generateFen(board, 0, halfmoveClock,roundCount);
+    std::cout << boardFen << "\n";
+    getEval(boardFen);
 
     while(window.isOpen()){
 
         const sf::Vector2i mousePosition{ sf::Mouse::getPosition(window) };
         const sf::Vector2f mouseCoords{ window.mapPixelToCoords(mousePosition) };
         mouseCircle.setPosition(mouseCoords);
-
-        if(roundCheck == 2){
-            roundCount++;
-            roundCheck = 0;
-        }
 
 
         //random bot 1 movement
@@ -130,7 +130,7 @@ int main(int argc, char ** argv){
             int oldId = getIdatCoord({int(move[0]) - 48, int(move[1]) - 48});
             int boardId = newCoords.y*8 + newCoords.x;
 
-            movePiece(board, allValidMoves, oldId, boardId, oldId, roundCheck);
+            movePiece(board, allValidMoves, oldId, boardId, roundCheck, halfmoveClock, roundCount);
 
                     if(roundCheck == 2) roundCheck = 0;
                     checkInCheck(board,0);
@@ -167,7 +167,7 @@ int main(int argc, char ** argv){
             int oldId = getIdatCoord({int(move[0]) - 48, int(move[1]) - 48});
             int boardId = newCoords.y*8 + newCoords.x;
 
-            movePiece(board, allValidMoves, oldId, boardId, oldId, roundCheck);
+            movePiece(board, allValidMoves, oldId, boardId, roundCheck, halfmoveClock, roundCount);
 
                     if(roundCheck == 2) roundCheck = 0;
                     checkInCheck(board,0);
@@ -229,7 +229,7 @@ int main(int argc, char ** argv){
 
                 int prevRoundCheck = roundCheck;
 
-                movePiece(board, allValidMoves, clickedId, boardId, prevId, roundCheck);
+                movePiece(board, allValidMoves, clickedId, boardId, roundCheck, halfmoveClock, roundCount);
                 
                 if(prevRoundCheck != roundCheck){
                     
@@ -336,6 +336,7 @@ int main(int argc, char ** argv){
         for(int i = 0; i < chessPieces.size(); i++) window.draw(chessPieces[i].sprite);
         window.display();
         if(chessPieces.size() == 2){std::cout << "Draw\n"; window.close();}
+        if(allValidMoves.size() == 0){std::cout << "player " << !roundCheck + 1 << "wins!\n"; window.close();}
     }
 
     whiteInCheck = NULL;

@@ -16,7 +16,7 @@
 #include "Collision.hpp"
 
 class chessPiece;
-inline sf::Vector2i justPassant;
+inline sf::Vector2i justPassant = {-1,-1};
 inline std::vector<chessPiece> chessPieces;
 inline sf::Font font;
 

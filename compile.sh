@@ -8,6 +8,8 @@ res/mov/bishopMovement.cpp \
 res/mov/queenMovement.cpp \
 res/mov/pawnMovement.cpp \
 res/mov/knightMovement.cpp \
+res/getEval.cpp \
+res/generateFen.cpp \
 res/checkIfMate.cpp \
 res/Collision.cpp \
 res/loadTextures.cpp \
