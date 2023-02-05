@@ -2,12 +2,17 @@
 
 bool checkNotCheck(std::vector<std::vector<char>> board, int id, sf::Vector2i prevCoords, sf::Vector2i newCoords){
 
+    //std::cout << "checknoncheck\n";
     char type = chessPieces[id].type;
     //std::cout << "checknotcheck\n";
     std::vector<chessPiece> tempChessPieces = chessPieces;
+    //std::cout << "meow\n";
+    
 
     //std::cout << "board\n";
+    //std::cout << prevCoords.y << ", " << prevCoords.x << "\n";
     board[prevCoords.y][prevCoords.x] = '\0';
+    //std::cout << newCoords.y << ", " << newCoords.x << "\n";
     
     if(board[newCoords.y][newCoords.x] != '\0'){
         //std::cout << "yes kill\n";

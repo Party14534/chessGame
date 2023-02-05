@@ -2,6 +2,8 @@ g++ main.cpp \
 res/bots/randomBot.cpp \
 res/bots/cccpBot.cpp \
 res/bots/botMovement.cpp \
+res/bots/minMovesBot.cpp \
+res/bots/minCccpBot.cpp \
 res/mov/kingMovement.cpp \
 res/mov/rookMovement.cpp \
 res/mov/bishopMovement.cpp \

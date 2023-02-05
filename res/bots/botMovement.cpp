@@ -12,6 +12,16 @@ std::string  moveBot(std::vector<std::vector<char>> board, std::vector<std::stri
         return cccpBotMove(board, validMoves, color);
 
     }
+    else if(choice == 3){
+
+        return minBotMove(board, validMoves, color);
+
+    }
+    else if(choice == 4){
+
+        return minCccpBotMove(board, validMoves, color);
+
+    }
 
     return validMoves[0];
 

@@ -4,6 +4,8 @@
 #include <string>
 #include "randomBot.hpp"
 #include "cccpBot.hpp"
+#include "minMovesBot.hpp"
+#include "minCccpBot.hpp"
 
 std::string moveBot(std::vector<std::vector<char>> board, std::vector<std::string> validMoves, int color, int choice);
 

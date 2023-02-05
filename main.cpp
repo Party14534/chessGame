@@ -62,8 +62,7 @@ int main(int argc, char ** argv){
 
     std::vector<std::vector<char>> board(8, std::vector<char> (8));
     std::string boardString = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR/8";
-    //boardString = "r3kbnr/p4ppp/b1p1p3/8/5P2/P7/1P1Pq1PP/RNB1K2R";
-    //boardString = "r1b1kb1r/p2qppp1/2np1n2/1ppP3p/Q1P2B1P/5N2/PP1NPPP1/R3KB1R";
+    boardString = "5bnr/3ppk1p/8/6B1/4b1P1/8/1PN2P1P/r3K1NR";
     initializeBoard(board, boardString);
 
     sf::Font font;
@@ -113,7 +112,7 @@ int main(int argc, char ** argv){
 
     generateFen(board, 0, halfmoveClock,roundCount);
     std::cout << boardFen << "\n";
-    getEval(boardFen);
+    //getEval(boardFen);
 
     while(window.isOpen()){
 
@@ -160,38 +159,46 @@ int main(int argc, char ** argv){
 
         if(roundCheck == !botColor && botType2 != 0 && argc > 2 && allValidMoves.size() != 0){
 
-            std::cout << "here\n";
+            //std::cout << "here\n";
             std::string move = moveBot(board, allValidMoves, !botColor, botType2);
-            std::cout << "aftermove\n";
+            //std::cout << "aftermove\n";
             sf::Vector2i newCoords = {int(move[2]) - 48, int(move[3]) - 48};
             int oldId = getIdatCoord({int(move[0]) - 48, int(move[1]) - 48});
             int boardId = newCoords.y*8 + newCoords.x;
 
+            //std::cout << "haaa\n";   
             movePiece(board, allValidMoves, oldId, boardId, roundCheck, halfmoveClock, roundCount);
+            //std::cout << "move\n";
 
-                    if(roundCheck == 2) roundCheck = 0;
-                    checkInCheck(board,0);
-                    allValidMoves = {};
-                    allValidMoves.clear();
-                    for(int i = 0; i < chessPieces.size(); i++){
-                        if(abs(roundCheck - !!isupper(chessPieces[i].type))){
-                            chessPieces[i].getValidMoves(board);
-                            for(int j = 0; j < chessPieces[i].validMoves.size(); j++){
-                                allValidMoves.push_back(chessPieces[i].validMoves[j]);
-                            }
-                        }
+            if(roundCheck == 2) roundCheck = 0;
+            checkInCheck(board,0);
+            //std::cout << "in check\n";
+            allValidMoves = {};
+            allValidMoves.clear();
+            //std::cout << "clear\n";
+            for(int i = 0; i < chessPieces.size(); i++){
+                if(abs(roundCheck - !!isupper(chessPieces[i].type))){
+                    chessPieces[i].getValidMoves(board);
+                    for(int j = 0; j < chessPieces[i].validMoves.size(); j++){
+                        allValidMoves.push_back(chessPieces[i].validMoves[j]);
                     }
-                    for(int i = 0; i < allValidMoves.size(); i++){
-                        sf::Vector2i prevCoords = {int(allValidMoves[i][0]) - 48, int(allValidMoves[i][1]) - 48};
-                        sf::Vector2i newCoords = {int(allValidMoves[i][2]) - 48, int(allValidMoves[i][3]) - 48};
-                        if(checkNotCheck(board, getIdatCoord(prevCoords), prevCoords, newCoords)){
-                            if(i < 0) i = 0;
-                            allValidMoves.erase(allValidMoves.begin()+i);
-                            i--;
-                        }
-                    }
-                    checkInCheck(board, 2);
-                    if(allValidMoves.size() == 0){std::cout << "player " << !roundCheck + 1 << "wins!\n"; window.close();}
+                }
+            }
+            //std::cout << "not check\n";
+            for(int i = 0; i < allValidMoves.size(); i++){
+                sf::Vector2i prevCoords = {int(allValidMoves[i][0]) - 48, int(allValidMoves[i][1]) - 48};
+                sf::Vector2i newCoords = {int(allValidMoves[i][2]) - 48, int(allValidMoves[i][3]) - 48};
+                //std::cout << i << "\n";
+                if(checkNotCheck(board, getIdatCoord(prevCoords), prevCoords, newCoords)){
+                    if(i < 0) i = 0;
+                    allValidMoves.erase(allValidMoves.begin()+i);
+                    i--;
+                }
+            }
+            //std::cout << "pre check\n";
+            checkInCheck(board, 2);
+            //std::cout << "post\n";
+            if(allValidMoves.size() == 0){std::cout << "player " << !roundCheck + 1 << "wins!\n"; window.close();}
 
         }
 
@@ -335,7 +342,7 @@ int main(int argc, char ** argv){
         for(int i = 0; i < moveBoard.size(); i++) window.draw(moveBoard[i]);
         for(int i = 0; i < chessPieces.size(); i++) window.draw(chessPieces[i].sprite);
         window.display();
-        if(chessPieces.size() == 2){std::cout << "Draw\n"; window.close();}
+        if(chessPieces.size() == 2 || halfmoveClock >= 100){std::cout << "Draw\n"; window.close();}
         if(allValidMoves.size() == 0){std::cout << "player " << !roundCheck + 1 << "wins!\n"; window.close();}
     }
 

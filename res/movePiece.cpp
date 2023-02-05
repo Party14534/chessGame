@@ -4,6 +4,8 @@ void movePiece(std::vector<std::vector<char>> &board, std::vector<std::string>& 
 
                 bool valid = false;
 
+                sf::Vector2f prevCoords = chessBoard[(chessPieces[clickedId].coords.y*8 + chessPieces[clickedId].coords.x)].getPosition();
+
                 sf::Vector2i newCoords = {(boardId % 8), (int)floor((boardId)/8)};
 
                 std::string checkString = "    ";
@@ -76,7 +78,7 @@ void movePiece(std::vector<std::vector<char>> &board, std::vector<std::string>& 
                     generateFen(board, roundCheck, halfMove, roundCount);
                     std::cout << boardFen << "\n";
 
-                } else chessPieces[clickedId].sprite.setPosition(chessBoard[clickedId].getPosition());
+                } else chessPieces[clickedId].sprite.setPosition(prevCoords);
 
                 chessPieces[clickedId].clicked = false;
                 clickedId = -1;
