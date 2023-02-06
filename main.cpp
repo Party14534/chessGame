@@ -62,7 +62,7 @@ int main(int argc, char ** argv){
 
     std::vector<std::vector<char>> board(8, std::vector<char> (8));
     std::string boardString = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR/8";
-    boardString = "5bnr/3ppk1p/8/6B1/4b1P1/8/1PN2P1P/r3K1NR";
+    //boardString = "5bnr/3ppk1p/8/6B1/4b1P1/8/1PN2P1P/r3K1NR";
     initializeBoard(board, boardString);
 
     sf::Font font;
@@ -342,7 +342,7 @@ int main(int argc, char ** argv){
         for(int i = 0; i < moveBoard.size(); i++) window.draw(moveBoard[i]);
         for(int i = 0; i < chessPieces.size(); i++) window.draw(chessPieces[i].sprite);
         window.display();
-        if(chessPieces.size() == 2 || halfmoveClock >= 100){std::cout << "Draw\n"; window.close();}
+        if(chessPieces.size() == 2 || halfmoveClock >= 100){std::cout << "Draw\n"; roundCheck = -1; window.close();}
         if(allValidMoves.size() == 0){std::cout << "player " << !roundCheck + 1 << "wins!\n"; window.close();}
     }
 
@@ -353,6 +353,7 @@ int main(int argc, char ** argv){
     chessBoard.clear();
     board.clear();
     allValidMoves.clear();
-    return 0;
+    std::cout << roundCheck << "\n";
+    return roundCheck;
 
 }
