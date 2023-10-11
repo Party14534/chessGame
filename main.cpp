@@ -62,7 +62,7 @@ int main(int argc, char ** argv){
 
     std::vector<std::vector<char>> board(8, std::vector<char> (8));
     std::string boardString = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR/8";
-    //boardString = "5bnr/3ppk1p/8/6B1/4b1P1/8/1PN2P1P/r3K1NR";
+    boardString = "4k2r/p3np1p/8/2Q1P1B1/6p1/N1P5/PP4PP/R2K2NR";
     initializeBoard(board, boardString);
 
     sf::Font font;
