@@ -22,7 +22,10 @@ Welcome to my Chess Game project! This project is an implementation of a chess g
     ```
 
 3. Run the project with the pre-compiled executables for windows and linux
-
+    ```console
+    ./chess
+    ```
+    
 ## Arguments
 - To play against bots, launch the game in the console with the level of bot after the application name
     ```console
