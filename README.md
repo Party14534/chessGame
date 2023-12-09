@@ -1,5 +1,5 @@
 # Chess Game
-Welcome to my Chess Game project! This project is an implementation of a chess game using c++ and SFML for the visuals.
+Welcome to my Chess Game project! This project is an implementation of a chess game using c++ for the game logic and using the SFML library for the visuals.
 
 ## Features
 - Local Co-op: Play Chess against your friends and family
